@@ -1,2 +1,2 @@
-# xforms4shs
-Une proposition pour Programming Historian en français 
+# xforms4hss
+Une proposition pour Programming Historian en français 2024.
