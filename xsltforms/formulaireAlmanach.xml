@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="xsltforms.xsl" type="text/xsl"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:tei="http://www.tei-c.org/ns/1.0" tei:bogus="fix/Firefox/namespace/issue" lang="fr">
+   <head>
+      <title>Formulaire almanach</title>
+      <xf:model>
+         <xf:instance src="instanceAlmanach.xml"/>
+
+         <xf:bind nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:div/tei:list/tei:item/tei:date" type="xf:gYear"/>
+      </xf:model>
+   </head>
+   <body>
+      <xf:group ref="/tei:TEI/tei:text/tei:body/tei:div">
+         <xf:label>Liste des Experts dans l'almanach royal de l'année 1750</xf:label>
+         <xf:input ref="tei:head" incremental="true">
+		      <xf:label>Titre</xf:label>
+	      </xf:input>
+         <br/>
+	      <xf:textarea ref="tei:p" incremental="true">
+		      <xf:label>Description</xf:label>
+	      </xf:textarea>
+         <xf:repeat nodeset="tei:div[@type='column']">
+            <xf:input ref="tei:head" incremental="true">
+		         <xf:label>Titre de la colonne</xf:label>
+	         </xf:input>
+            <xf:group ref="tei:list">
+               <xf:input ref="tei:head">
+                  <xf:label>Chapeau de liste</xf:label>
+               </xf:input>
+               <xf:repeat id="listItem" nodeset="tei:item">
+                  <xf:label>
+                     Expert
+                     <xf:trigger>
+                        <xf:label>🗑</xf:label>
+                        <xf:delete 
+                           if="count(parent::tei:list/tei:item) > 1"
+                           nodeset="."
+                           ev:event="DOMActivate"/>
+                     </xf:trigger>
+                  </xf:label>
+                  <xf:input ref="tei:date">
+                     <xf:label>Date</xf:label>
+                  </xf:input>
+                  <xf:input ref="tei:persName">
+                     <xf:label>Patronyme</xf:label>
+                  </xf:input>
+                  <xf:select1 ref="tei:roleName">
+                     <xf:label>Statut</xf:label>
+                     <xf:item>
+                        <xf:label>aucun</xf:label>
+                        <xf:value/>
+                     </xf:item>
+                     <xf:item>
+                        <xf:label>Adjoint</xf:label>
+                        <xf:value>adjoint</xf:value>
+                     </xf:item>                     
+                     <xf:item>
+                        <xf:label>Doyen</xf:label>
+                        <xf:value>doyen</xf:value>
+                     </xf:item>
+                     <xf:item>
+                        <xf:label>Syndic</xf:label>
+                        <xf:value>syndic</xf:value>
+                     </xf:item>
+                  </xf:select1>
+                  <xf:input ref="tei:address/tei:addrLine">
+                     <xf:label>Adresse</xf:label>
+                  </xf:input>                  
+               </xf:repeat>
+               <xf:trigger>
+                  <xf:label>Ajouter un expert</xf:label>
+                  <xf:insert nodeset="tei:item" at="index('listItem')" position="after" ev:event="DOMActivate"/>
+                  <xf:setvalue ref="tei:item[index('listItem')]/tei:date" value="''" ev:event="DOMActivate"/>
+                  <xf:setvalue ref="tei:item[index('listItem')]/tei:persName" value="''" ev:event="DOMActivate"/>
+                  <xf:setvalue ref="tei:item[index('listItem')]/tei:roleName" value="''" ev:event="DOMActivate"/>
+                  <xf:setvalue ref="tei:item[index('listItem')]/tei:address/addrLine" value="''" ev:event="DOMActivate"/>
+                  <!--<xf:insert nodeset="tei:item" at="index('listItem')" position="after" ev:event="DOMActivate"/>-->
+               </xf:trigger>
+            </xf:group>
+         </xf:repeat>
+         <xf:output value="serialize(.)"/>
+      </xf:group>
+   </body>
+</html>
