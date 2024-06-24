@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="xsltforms.xsl" type="text/xsl"?>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:tei="http://www.tei-c.org/ns/1.0" tei:bogus="fix/Firefox/namespace/issue" lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:tei="http://www.tei-c.org/ns/1.0" tei:bogus="https://bugzilla.mozilla.org/show_bug.cgi?id=94270" lang="fr">
    <head>
       <title>Formulaire almanach</title>
       <xf:model>
          <xf:instance src="instanceAlmanach.xml"/>
 
-         <xf:bind nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:div/tei:list/tei:item/tei:date" type="xf:gYear"/>
+         <xf:bind nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:head" required="true()"/>
+
+         <xf:bind 
+            nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:div/tei:list/tei:item/tei:date"
+            type="gYear"
+            constraint=". &gt;= 1690 and . &lt;= 1792"/>
+         <xf:bind nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:div/tei:list/tei:item/tei:date/@when" calculate="parent::tei:date"/>
       </xf:model>
    </head>
    <body>

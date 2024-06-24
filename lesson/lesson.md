@@ -308,7 +308,7 @@ L'instance étant sous l'espace de nom TEI, il est essentiel de le déclarer. Vo
 
 <div  class="alert alert-warning">
 
-Si vous travaillez avec Firefox, sachez que ce navigateur ne prend en charge que très partiellement les espaces de noms. Pour éviter toute erreur, il est nécessaire d'ajouter en plus l'attribut `tei:bogus="fix/Firefox/namespace/issue"` .
+Si vous travaillez avec Firefox, sachez que ce navigateur ne prend en charge que très partiellement les espaces de noms. Pour éviter toute erreur, il est nécessaire d'ajouter en plus l'attribut `tei:bogus="https://bugzilla.mozilla.org/show_bug.cgi?id=94270"`.
 
 ```xml
 <!-- // xsltforms/formulaireAlmanach.xml -->
@@ -316,7 +316,7 @@ Si vous travaillez avec Firefox, sachez que ce navigateur ne prend en charge que
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:xf="http://www.w3.org/2002/xforms"
 	xmlns:tei="http://www.tei-c.org/ns/1.0"
-	tei:bogus="fix/Firefox/namespace/issue"
+	tei:bogus="https://bugzilla.mozilla.org/show_bug.cgi?id=94270"
 	xmlns:ev="http://www.w3.org/2001/xml-events"
 	lang="fr"/>
 ```
@@ -636,6 +636,64 @@ Houston, on a un problème ! Comment empêcher de supprimer tous les items de la
 ```
 
 ### Typage et contraintes sur les données
+XForms propose bien évidemment des fonctionnalités avancées pour contraindre les données. Il est notamment possible de rendre obligatoire certains champs, d'ajouter des contraintes relatives à la valeur des nœuds, de confronter ces mêmes valeurs aux types XML, ou encore de calculer des valeurs automatiquement. Toutes ces contraintes doivent être déclarées dans le `<xf:model/>` avec la balise `<xf:bind/>`.
 
+
+<div  class="alert alert-warning">
+
+Le standard XForms propose aussi la validation d'instances au regard de schemas XML, mais cette fonctionnalité n'est pas encore disponible avec le client XSLTForms. D'autres clients XForms ont intégré cette possibilité, à l'image de betterForm, qui n'est malheureusement plus maintenu.
+
+```xml
+<xf:model schema="schema.xsd">
+   <xf:instance src="instance.xml"/>
+</xf:model>
+```
+</div>
+
+#### Champ obligatoire
+Avant de soumettre un formulaire à l'enregistrement, vous pourriez souhaiter que certains champs soient renseignés. C'est précisément l'objet de l'attribut `@required`, qui prend pour valeur `true()` ou `false()`. Dans le cadre de notre formulaire nous pourrions souhaiter qu'à minima le titre principale soit renseigné.
+
+Commencez par ajouter un élément `<xf:bind/>` dans votre modèle. Cet élément est relié aux nœuds que vous souhaitez contrôler par l'intermédiaire de l'attribut `@nodeset`, puis ajoutez simplement la propriété `@required="true()"`.
+
+```xml
+<xf:model>
+   <xf:instance src="instanceAlmanach.xml"/>
+   <xf:bind nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:head" required="true()"/>
+</xf:model>
+```
+
+En rechargeant votre formulaire, vous devriez voir une petite étoile rouge à côté du label attaché au champ, indiquant qu'une valeur est attendue.
+
+#### Typage des données
+L'attribut `@type` permet de contrôler le type de données attendu pour un nœud (*string*, *integer*, *date*, *boolean*, *card-number*, *email*, etc.). Il est possible d'appeler directement un type XML, ou d'en définir un avec une règle `xs:schema`.
+Toujours dans le `<xf:model/>`, ajoutez un contrôle du type pour le nœud `<date/>`. Dans les almanachs, seule l'année est indiquée, et le type XML correspondant est `gYear`.
+
+```xml
+<xf:model>
+   <xf:instance src="instanceAlmanach.xml"/>
+   <xf:bind nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:head" required="true()"/>
+   <xf:bind nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:div/tei:list/tei:item/tei:date" type="gYear"/>
+</xf:model>
+```
+
+#### Contraindre les valeurs
+<!-- @todo vérifier la date de fin des colonnes -->
+Pour aller plus loin concernant les dates, il est établi que les deux colonnes d'experts ont existé entre 1690 et 1792, les valeurs acceptée par le champ date doivent donc être comprises entre ces deux nombres. Plus précisément, la valeur du champ doit être supérieure ou égale à 1690, mais inférieure ou égale à 1792. En l'espèce, l'expression XPath correspondante est `. >= 1690 and . <= 1792`. Ce contrôle est rendu possible par l'utilisation de l'attribut [`@constraint`](https://www.w3.org/TR/xforms11/#model-prop-constraint) qui prend pour valeur toute expression XPath qui retourne un [booléen](https://developer.mozilla.org/fr/docs/Glossary/Boolean). Vous pouvez donc compléter la règle créée précédemment de la manière suivante : 
+
+```xml
+<xf:model>
+   <xf:instance src="instanceAlmanach.xml"/>
+   <xf:bind nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:head" required="true()"/>
+   <xf:bind 
+      nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:div/tei:list/tei:item/tei:date"
+      type="gYear"
+      constraint=". &gt;= 1690 and . &lt;= 1792"/>
+</xf:model>
+```
+
+Avec XML, les signes `<` et `>` sont réservés, vous aurez donc remarqué qu'ils ont été remplacés les entités correspondantes. 
+
+<u>#### Calculer des valeurs automatiquement</u>
+<!-- @rmq pas forcément pertinent, ici si ce n'est montrer que la fonctionnalité existe, mais dans l'exemple, ce ne serait qu'une recopie (fonctionnalité un peu détournée…) si on ne l'utilise pas, retirer l'attribut @when de l'élément date. -->
 
 ### Soumettre le formulaire
