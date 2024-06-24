@@ -747,3 +747,7 @@ Design ?
 renvoyer vers le repo avec les fichiers sources ?
 
 ## Bibliographie ?
+
+[Wiki XSLTForms](https://en.wikibooks.org/wiki/XSLTForms)
+[Wiki XForms](https://en.wikibooks.org/wiki/XForms)
+[W3C, XForms 1.1 ](https://www.w3.org/TR/xforms11/)
