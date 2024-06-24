@@ -5,14 +5,15 @@
       <title>Formulaire almanach</title>
       <xf:model>
          <xf:instance src="instanceAlmanach.xml"/>
-
+         
          <xf:bind nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:head" required="true()"/>
-
          <xf:bind 
             nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:div/tei:list/tei:item/tei:date"
-            type="gYear"
+            type="date"
             constraint=". &gt;= 1690 and . &lt;= 1792"/>
          <xf:bind nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:div/tei:list/tei:item/tei:date/@when" calculate="parent::tei:date"/>
+         
+         <xf:submission method="put" resource="file:" mediatype="application/xml"/>
       </xf:model>
    </head>
    <body>
@@ -46,6 +47,8 @@
                   </xf:label>
                   <xf:input ref="tei:date">
                      <xf:label>Date</xf:label>
+                     <xf:hint>Année au format 'AAAA', par exemple : 1750.</xf:hint>
+                     <xf:help>La valeur de ce champ doit être comprise entre 1696 et 1792.</xf:help>
                   </xf:input>
                   <xf:input ref="tei:persName">
                      <xf:label>Patronyme</xf:label>
@@ -85,6 +88,9 @@
             </xf:group>
          </xf:repeat>
          <xf:output value="serialize(.)"/>
+         <xf:submit>
+            <xf:label>Sauvegarder</xf:label>
+         </xf:submit>
       </xf:group>
    </body>
 </html>

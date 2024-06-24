@@ -1,24 +1,13 @@
 ---
-
 title: Saisir des annuaires historiques avec XForms
-
 collection: lessons
-
 layout: lesson
-
 authors:
-
 - Josselin Morvan
-
 - Emmanuel Château-Dutier
-
 ---
 
-  
-
 <!-- se conformer à https://programminghistorian.org/fr/consignes-auteurs -->
-
-  
 
 {% include toc.html %}
 
@@ -129,7 +118,7 @@ Le **modèle** XForms `<xf:model/>` contient le modèle de données exprimé sou
 	</xf:instance>
 </xf:model>
 ```
-Il peut également contenir les règles de validation, les contraintes, les déclarations de types de données ou encore les paramètres de soumission que nous verrons dans la suite de cette leçon. Plusieurs modèles peuvent être déclarés au sein d'une même page.
+Il peut également contenir les règles de validation, les contraintes, les déclarations de types de données ou encore les paramètres de soumission que nous verrons à la fin de cette leçon. Plusieurs modèles peuvent être déclarés au sein d'une même page.
 
 #### Vue
 La **vue** régit l'affichage et la présentation des données. Elle détermine comment les données du modèle sont rendues à l'écran.
@@ -179,8 +168,7 @@ Pour la leçon, nous laisserons de côté les métadonnées du `<teiHeader/>`, a
 
 L'analyse des annuaires révèle une structure relativement simple, presque tabulaire, constituée de titres, de paragraphes et de listes, où, pour chaque expert, sont indiqués son année d'entrée dans la corps des experts, son patronyme, éventuellement son statut dans la communauté et enfin son adresse.
 
-![enter image description here](https://gallica.bnf.fr/ark:/12148/bpt6k204719d/f342.highres)
-{% include figure.html filename="figure1.jpeg" caption="Figure 1 : Liste des experts parisiens du bâtiment pour l'année 1750." %}
+{% include figure.html filename="figure1.jpg" caption="Figure 1 : Liste des experts parisiens du bâtiment pour l'année 1750." %}
 
 Avec ces éléments, nous pouvons envisager la modélisation suivante :
 
@@ -676,6 +664,10 @@ Toujours dans le `<xf:model/>`, ajoutez un contrôle du type pour le nœud `<dat
 </xf:model>
 ```
 
+Le typage des données peut avoir des implications plus profondes sur votre formulaire. Par exemple, si vous choisissez un type `date` pour le nœud `<date/>`, vous observerez que le champ devient un sélecteur de date.
+
+{% include figure.html filename="figure5.jpg" caption="Figure 5 : typage des données et sélecteur de date." %}
+
 #### Contraindre les valeurs
 <!-- @todo vérifier la date de fin des colonnes -->
 Pour aller plus loin concernant les dates, il est établi que les deux colonnes d'experts ont existé entre 1690 et 1792, les valeurs acceptée par le champ date doivent donc être comprises entre ces deux nombres. Plus précisément, la valeur du champ doit être supérieure ou égale à 1690, mais inférieure ou égale à 1792. En l'espèce, l'expression XPath correspondante est `. >= 1690 and . <= 1792`. Ce contrôle est rendu possible par l'utilisation de l'attribut [`@constraint`](https://www.w3.org/TR/xforms11/#model-prop-constraint) qui prend pour valeur toute expression XPath qui retourne un [booléen](https://developer.mozilla.org/fr/docs/Glossary/Boolean). Vous pouvez donc compléter la règle créée précédemment de la manière suivante : 
@@ -696,4 +688,62 @@ Avec XML, les signes `<` et `>` sont réservés, vous aurez donc remarqué qu'il
 <u>#### Calculer des valeurs automatiquement</u>
 <!-- @rmq pas forcément pertinent, ici si ce n'est montrer que la fonctionnalité existe, mais dans l'exemple, ce ne serait qu'une recopie (fonctionnalité un peu détournée…) si on ne l'utilise pas, retirer l'attribut @when de l'élément date. -->
 
+#### Aides à la saisie
+En outre, vous pouvez également ajouter des aides à la saisie ou des alertes à l'aide des éléments `<xf:help/>`, `<xf:hint/>` et `<xf:alert/>`
+
+- `<xf:help/>` apporte une aide à la saisie ;
+- `<xf:hint/>` propose des suggestions ;
+- `<xf:alert/>` retourne un message d'alerte. Toutefois, il ne bénéficie pas d'un traitement par défaut, et nécessite un implémentation au niveau de l'application XForms développée.
+
+Ces trois éléments sont placés directement dans un champ de formulaire (`<xf:input/>`, `<xf:textarea/>`, `<xf:select/>`, etc.). Si vous disposez d'une documentation au format XML, au hasard un fichier [ODD](https://tei-c.org/guidelines/customization/getting-started-with-p5-odds/), vous pouvez faire pointer ces assistances vers votre documentation avec un attribut `@ref`, sous réserve que cette dernière soit appelée dans vos instances.
+
+Dans ce formulaire, vous pouvez ajouter des assistances aux champs `date` de la manière suivante :
+
+```xml
+<xf:input ref="tei:date">
+   <xf:label>Date</xf:label>
+   <xf:hint>Année au format 'AAAA', par exemple : 1750.</xf:hint>
+   <xf:help>La valeur de ce champ doit être comprise entre 1696 et 1792.</xf:help>
+</xf:input>
+```
+
 ### Soumettre le formulaire
+Voilà, le formulaire est pour ainsi dire terminé, il ne reste plus qu'à l'enregistrer. XForms propose un module de soumission très complet, comprenant de multiples paramètres de sérialisation et compatible avec de nombreux protocoles. Comme indiqué plus haut, les paramètres de soumission sont déclarés dans le `<xf:model/>` à l'aide de la balise [`<xf:submission/>`](https://www.w3.org/TR/xforms11/#submit).
+
+Pour cette leçon, vous allez apprendre à récupérer un fichier correspondant à l'instance XML modifiée.
+
+Commencez par ajouter une balise `<xf:submission/>` dans votre `<xf:model/>`, puis précisez la [méthode](https://developer.mozilla.org/fr/docs/Web/HTTP/Methods) de soumission souhaitée (attribut `@method`) et le [type MIME](https://developer.mozilla.org/fr/docs/Web/HTTP/Basics_of_HTTP/MIME_types) afin de préciser la nature et le format du document envoyé (attribut `@mediatype`). Les méthodes les plus utilisées sont généralement `POST` et `PUT` ; en l'espèce vous aurez recours à la méthode `PUT` (`@method="put"`). Concernant le type MIME, vous indiquerez `@mediatype="application/xml"`
+
+Il reste encore à préciser où envoyer votre document. C'est le rôle de l'attribut `@resource`. Vous pouvre choisir d'envoyer votre formulaire vers un scrip, qui s'occupera processer les données envoyer, ou d'utiliser le scheme `file:` pour récupérer l'instance. 
+
+```xml
+<xf:model>
+   <xf:instance src="instanceAlmanach.xml"/>
+   
+   <xf:bind nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:head" required="true()"/>
+   <xf:bind 
+      nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:div/tei:list/tei:item/tei:date"
+      type="gYear"
+      constraint=". &gt;= 1690 and . &lt;= 1792"/>
+   <xf:bind nodeset="/tei:TEI/tei:text/tei:body/tei:div/tei:div/tei:list/tei:item/tei:date/@when" calculate="parent::tei:date"/>
+   
+   <xf:submission method="put" resource="file:" mediatype="application/xml"/>
+</xf:model>
+```
+
+Finalement, il ne reste plus qu'à créer un bouton pour initier la soumission. Pour ce faire, vous devez simplement ajouter un élément `<xf:submit/>` dans votre formulaire, accompagné d'un `<xf:label/>` de votre choix.
+
+```xml
+<xf:submit>
+   <xf:label>Sauvegarder</xf:label>
+</xf:submit>
+```
+
+Félicitations, vous avez créé un formulaire XForms reposant sur un modèle de données TEI, comportant des contrôles avancés et des aides à saisie, et capable d'enregistrer votre travail, le tout en utilisant une unique pile technologique : XML !
+
+## Conclusion ? 
+parler les aspects non abordés ? mais il y a en a beaucoup
+Design ?
+renvoyer vers le repo avec les fichiers sources ?
+
+## Bibliographie ?
