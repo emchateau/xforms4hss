@@ -99,7 +99,7 @@
     <text
        xml:space="preserve"
        id="text6"
-       style="font-size:16px;white-space:pre;shape-inside:url(#rect7);fill:#000000;fill-opacity:0;stroke:#7c3aed;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
+       style="font-size:16px;white-space:pre;shape-inside:url(#rect7);display:inline;fill:#000000;fill-opacity:0;stroke:#7c3aed;stroke-width:2;stroke-dasharray:none;stroke-opacity:1"
        transform="translate(84,6)"><tspan
          x="120.01367"
          y="132.44336"
