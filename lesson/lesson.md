@@ -14,34 +14,34 @@ authors:
 
 ## Introduction
 ### Objectifs de la leçon
-Cette leçon propose une initiation à [XForms](https://fr.wikipedia.org/wiki/XForms) à travers l’élaboration d’un formulaire pour la saisie de données sérielles issues d’annuaires historiques : les Almanachs royaux. Elle vous permettra d’apprendre à rédiger un formulaire web dynamique et contrôlé, et d’enregistrer les données saisies directement au format XML.
+Cette leçon propose une initiation à [XForms](https://fr.wikipedia.org/wiki/XForms) à travers l’élaboration d’un formulaire pour la saisie de données sérielles issues d’annuaires historiques : les Almanachs royaux. Elle vous permettra d’apprendre à rédiger un formulaire web dynamique et contrôlé, et d’enregistrer les données saisies directement au format XML.
 
 ### Prérequis
-Cette leçon suppose que vous avez :
-- connaissance des langages [HTML](https://html.spec.whatwg.org/multipage/), [XML](https://www.w3.org/TR/xml/) et [XPath](https://www.w3.org/TR/xpath-31/). La connaissance du dialecte proposé par la [Text Encoding Initiative](https://tei-c.org/) est un plus, mais pas nécessaire ;
-- téléchargé le client [XSLTForms](https://github.com/AlainCouthures/declarative4all/releases/latest) ;
-- accès à un serveur local, ou web, capable de servir des documents HTML ou XML.
+Cette leçon suppose que vous ayez :
+- une connaissance de base des langages [HTML](https://html.spec.whatwg.org/multipage/), [XML](https://www.w3.org/TR/xml/) et [XPath](https://www.w3.org/TR/xpath-31/). La maîtrise de la [Text Encoding Initiative](https://tei-c.org/) est un plus, mais n’est pas nécessaire ;
+- téléchargé le client [XSLTForms](https://github.com/AlainCouthures/declarative4all/releases/latest) ;
+- accès à une machine sur laquelle vous pouvez déployer un serveur local, ou avoir accès à un serveur web, pour servir des documents HTML ou XML.
 
 ### XForms et XSLTForms
-[XForms](https://www.w3.org/TR/xforms11/) est un dialecte XML spécialisé dans la création de formulaires web standardisé par le W3C à partir de 2006. Il s’appuie sur une architecture Modèle - Vue - Contrôleur (MVC). En distinguant fond et forme, cette technologie offre de nombreux avantages en termes de réutilisation des formulaires, de compatibilité avec les différents types de périphériques (ordinateurs, téléphones, tablettes, etc.), et d’accessibilité. Plus qu’un simple langage de formulaire, dans sa version 1.1 XForms est devenu un langage [Turing-complet](https://fr.wikipedia.org/wiki/Turing-complet), qui adopte un modèle de [programmation déclaratif](https://fr.wikipedia.org/wiki/Programmation_d%C3%A9clarative), où l’on s’attache à décrire ce que l’on souhaite faire plutôt que comment, et capable de soutenir le développement d’applications à grande échelle.
+[XForms](https://www.w3.org/TR/xforms11/) est un dialecte XML spécialisé dans la création de formulaires web standardisé par le W3C à partir de 2006. Il s’appuie sur une architecture Modèle - Vue - Contrôleur (MVC). En distinguant fond et forme, cette technologie offre de nombreux avantages en termes de possibiliité de réutilisation des formulaires, de compatibilité avec les différents types de périphériques (ordinateurs, téléphones, tablettes, etc.), et d’accessibilité. Plus qu’un simple langage de formulaire, dans sa version 1.1 XForms est devenu un langage [Turing-complet](https://fr.wikipedia.org/wiki/Turing-complet) qui adopte un modèle de [programmation déclaratif](https://fr.wikipedia.org/wiki/Programmation_d%C3%A9clarative) où l’on s’attache à décrire ce que l’on souhaite faire plutôt que comment. Ce langage est capable de soutenir le développement d’applications à grande échelle.
 
-Dans le champ des sciences humaines et sociales, la communauté scientifique a largement adopté XML, dans lequel elle trouve l’expression de plusieurs formats de métadonnées et standards internationaux : [Text Encoding Initiative](https://fr.wikipedia.org/wiki/Text_Encoding_Initiative) (TEI), [Encoded Archival Description](https://fr.wikipedia.org/wiki/Description_archivistique_encod%C3%A9e) (EAD) ou encore [Encoded Archival Context - Corporate bodies, Persons, Families](https://eac.staatsbibliothek-berlin.de/) (EAC-CPF) en tête. Ici, l’utilisation du standard XML du W3C offre beaucoup d’avantages grâce à l’emploi de schémas pour la validation tout en assurant un haut niveau de portabilité et d’interopérabilité, et une grande souplesse d’utilisation qui s’articule facilement avec de nombreux systèmes d’information. Pour autant, lorsqu’il s’agit de produire des données au format XML, peu de solutions s’offrent réellement aux équipes de recherche, qui sont souvent contraintes de rédiger leurs documents directement dans un éditeur de texte.
+Dans le champ des sciences humaines et sociales, la communauté scientifique a largement adopté le format XML pour la gestion des métadonnées. Plusieurs standards de métadonnées internationaux peuvent ainsi être utiles aux chercheurs à l’instar de la [Text Encoding Initiative (TEI)](https://fr.wikipedia.org/wiki/Text_Encoding_Initiative) ou encore de l’[Encoded Archival Description (EAD)](https://fr.wikipedia.org/wiki/Description_archivistique_encod%C3%A9e), ou encore l’[Encoded Archival Context - Corporate bodies, Persons, Families (EAC-CPF)](https://eac.staatsbibliothek-berlin.de). L’utilisation du format XML du W3C offre beaucoup d’avantages de le contexte de la production des métadonnées en raison de l’existance de technologies de schémas qui permettent la validation des documents et garantit leur validation. Cela permet d’assurer un haut niveau de portabilité et d’interopérabilité, par ailleurs ce format présente une grande souplesse d’utilisation qui s’articule facilement avec de nombreux systèmes d’information. Pour autant, lorsqu’il s’agit de produire des données au format XML, peu de solutions s’offrent réellement aux équipes de recherche mis à par l’édition de documents directement dans un éditeur de texte.
 
-La création de formulaires avec XForms permet d’éditer des instances XML directement dans un navigateur, tout en embarquant des fonctionnalités avancées propres aux technologies XML. Elle constitue donc une solution de choix pour faciliter l’édition de documents XML. Elle présente ainsi un intérêt particulier pour les ingénieurs et les chercheurs qui souhaitent travailler dans l’environnement XML. En effet, XForms facilite la mise en place de formulaires dynamiques et très complexes, comportant par exemple des répétitions, des contrôles sur les valeurs ou des règles de contraintes avancées relativement rapidement.  
+La création de formulaires avec XForms permet d’éditer des instances XML directement dans un navigateur, tout en embarquant des fonctionnalités avancées propres aux technologies XML. Elle constitue donc une solution de choix pour faciliter l’édition de documents XML. Celle-ci présente ainsi un intérêt particulier pour les ingénieurs et les chercheurs qui souhaitent travailler dans l’environnement XML. En effet, XForms facilite la mise en place de formulaires dynamiques qui peuvent parfois s’avérer très complexes à mettre en œuvre avec d’autres technologies lorsqu’ils comportent, par exemple, des répétitions, des contrôles sur les valeurs ou des règles de contraintes avancées.  
 
-Malgré des qualités indéniables, cette recommandation du W3C n’a toutefois jamais été prise en charge par les navigateurs et nécessite donc l’utilisation d’un client pour s’exécuter. Pour cette leçon, nous utiliserons le client *open source* [XSLTForms](https://github.com/AlainCouthures/declarative4all) développé par Alain Couthures.
+Malgré des qualités indéniables, cette recommandation du W3C n’a toutefois jamais été prise en charge par les navigateurs et nécessite actuellement l’utilisation d’un client pour s’exécuter. Pour cette leçon, nous utiliserons le client *open source* [XSLTForms](https://github.com/AlainCouthures/declarative4all) développé par Alain Couthures.
 
 ### Les Almanachs royaux
-Publiés au format in-8° chaque année entre 1700 et 1792, les [Almanachs royaux](https://fr.wikipedia.org/wiki/Almanach_royal) comportaient, entre autres choses, la liste des membres de la famille royale, des principaux officiers du royaume, ou encore des hauts représentants du clergé. De par la richesse des informations qu’ils contiennent (patronyme des individus, appartenance et position dans un corps, adresse) ces sources intéressent de nombreux historiens. Les Almanachs royaux sont accessibles dans leur intégralité via [Gallica](https://gallica.bnf.fr/ark:/12148/cb34454105m/date.item) et le [centre de recherche du château de Versailles](https://www.chateauversailles-recherche.fr/francais/ressources-documentaires/corpus-electroniques/sources-imprimees/periodiques/l-almanach-royal-1683-1792.html).
+Publiés au format in-8° chaque année entre 1700 et 1792, les [Almanachs royaux](https://fr.wikipedia.org/wiki/Almanach_royal) comportaient, entre autres choses, la liste des membres de la famille royale, des principaux officiers du royaume, ou encore des hauts représentants du clergé. De par la richesse des informations qu’ils contiennent (patronyme des individus, appartenance et position dans un corps, adresse) ces sources intéressent de nombreux historiens. Les Almanachs royaux sont accessibles dans leur intégralité via [Gallica](https://gallica.bnf.fr/ark:/12148/cb34454105m/date.item) ou encore le [centre de recherche du château de Versailles](https://www.chateauversailles-recherche.fr/francais/ressources-documentaires/corpus-electroniques/sources-imprimees/periodiques/l-almanach-royal-1683-1792.html).
 
-L’exemple utilisé dans le cadre de cette leçon est celui des listes d’experts-jurés parisiens du bâtiment, répartis, à partir de 1690, en deux colonnes : les architectes experts bourgeois et les experts entrepreneurs. Arbitrairement, nous nous appuierons sur la liste des experts pour l’année 1750, disponible en ligne à cette adresse : [<https://gallica.bnf.fr/ark:/12148/bpt6k204719d/f342.item>](https://gallica.bnf.fr/ark:/12148/bpt6k204719d/f342.item). Outre la répartition en deux colonnes, la liste indique pour chaque impétrant son année d’entrée dans le corps des experts, son patronyme, éventuellement son statut au sein de la communauté, et enfin son adresse.
+L’exemple utilisé dans le cadre de cette leçon est celui des listes d’experts-jurés parisiens du bâtiment, répartis, à partir de 1690, en deux colonnes : les architectes experts bourgeois et les experts entrepreneurs. Arbitrairement, nous nous appuierons sur la liste des experts pour l’année 1750, disponible en ligne à cette adresse : [<https://gallica.bnf.fr/ark:/12148/bpt6k204719d/f342.item>](https://gallica.bnf.fr/ark:/12148/bpt6k204719d/f342.item). Outre la répartition en deux colonnes, la liste indique pour chaque individu son année d’entrée dans le corps des experts, son patronyme, éventuellement son statut au sein de la communauté, et enfin son adresse.
 
 ## Configuration de l’environnement de développement
-Préalablement à cette leçon, vous devez télécharger le client [XSLTForms](https://github.com/AlainCouthures/declarative4all/releases/latest) (`xsltforms.zip`), puis dézipper l’archive à l’emplacement de votre choix. 
+Préalablement à cette leçon, vous devez télécharger le client [XSLTForms](https://github.com/AlainCouthures/declarative4all/releases/latest) (`xsltforms.zip`), puis décompresser l’archive à l’emplacement de votre choix sur votre ordinateur. 
 
 Les instances XForms doivent être servies par l’intermédiaire d’un serveur web. Si vous n’en disposez pas, voici comment déployer rapidement un serveur local avec [Python](https://www.python.org/), un langage de programmation largement utilisé et généralement installé par défaut sur les systèmes macOS et Linux, et qu’il vous faudra éventuellement installer sous Windows. 
 
-Tout d’abord, il est important de déterminer la version de Python installée sur votre machine. Pour ce faire, vous pouvez entrer l’une des deux commandes suivantes dans votre [émulateur de terminal](https://fr.wikipedia.org/wiki/%C3%89mulateur_de_terminal) :
+Tout d’abord, il est important de déterminer la version de Python installée sur votre machine. Pour ce faire, vous pouvez entrer l’une des deux commandes suivantes dans votre [émulateur de terminal :
 
 ```bash
 python -v
@@ -51,15 +51,15 @@ python3 -v
 
 Cette commande retourne la version de Python installée (généralement `Python 2.XX` ou `Python 3.XX`). 
 
-À l’aide de la commande `cd`, changez maintenant votre répertoire de travail pour le dossier `xsltforms` dézippé un peu plus tôt.
+À l’aide de la commande `cd`, changez maintenant votre répertoire de travail pour le dossier `xsltforms` que vous avez précédemment dézippé.
 
  ```bash
 cd chemin/vers/le/répertoire/xsltfoms
  ```
 
-Si vous n’êtes pas très à l’aise avec l’utilisation du terminal, vous pouvez lire la leçon « [Introduction à l’interface en ligne de commande Bash et Zsh](https://doi.org/10.46430/phfr0031) » de Ian Milligan et James Baker, traduite en français par Melvin Hersent.
+Si vous n’êtes pas très à l’aise avec l’utilisation du terminal, vous pouvez toujours vous référez à la leçon « [Introduction à l’interface en ligne de commande Bash et Zsh](https://doi.org/10.46430/phfr0031) » de Ian Milligan et James Baker, traduite en français par Melvin Hersent.
 
-Ensuite, selon la version de Python disponible sur votre système, entrez l’une des commandes suivantes pour démarrer le serveur local sur le port `8000` :
+Ensuite, selon la version de Python disponible sur votre système, entrez l’une des commandes suivantes pour démarrer le serveur local sur le port `8000` :
 
 ```bash
 # Python 3.XX
@@ -68,9 +68,11 @@ python3 -m http.server 8000
 python -m SimpleHTTPServer 8000
 ```
 
-Dans votre navigateur, vous pouvez maintenant vous rendre à l’adresse [`localhost:8000`](http://localhost:8000/). Par défaut, vous devriez voir la liste des fichiers contenus dans le dossier `xsltforms`.
+Dans votre navigateur, vous pouvez désormais vous rendre à l’adresse [`localhost:8000`](http://localhost:8000/). Par défaut, vous devriez voir la liste des fichiers contenus dans le dossier `xsltforms`.
 
 D’autres solutions existent pour déployer un serveur local (Julia, NodeJS, Apache, PHP, etc). Vous pouvez consulter ce repo Github afin les autres possibilités : <[https://github.com/sardinecan/localhost/](https://github.com/sardinecan/localhost/)>
+
+Si vous utilisez VisualStudio, l’extension [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) peut vous permettre de servir le contenu d’un dossier dans un navigateur. 
 
 ## Principes de mise en œuvre 
  À l’aide d’un éditeur de texte, ouvrez le fichier `hello.xml`, l’exemple fourni avec `xsltforms`, afin d’étudier la structure d’un formulaire XForms.
@@ -103,7 +105,7 @@ D’autres solutions existent pour déployer un serveur local (Julia, NodeJS, Ap
 ```
 
 ### Intégration dans une page web
-Reposant sur la syntaxe XML, XForms a été conçu pour s’intégrer directement dans des pages XHTML et pour s’articuler parfaitement avec les autres standards du W3C (CSS et XPath). Afin de distinguer les segments XForms du code XHTML, on utilise des [espaces de noms](https://fr.wikipedia.org/wiki/Espace_de_noms). Dans l’exemple ci-dessus, l’espace de nom XForms est déclaré par l’intermédiaire de l’attribut `xmlns:xf` (`<html xmlns:xf="http://www.w3.org/2002/xforms"/>`). L’utilisation du préfixe `xf` permet ensuite d’identifier facilement les éléments XForms dans le reste du document.
+Reposant sur la syntaxe XML, XForms a été conçu pour s’intégrer directement dans des pages XHTML et pour s’articuler parfaitement avec les autres standards du W3C (CSS et XPath). Afin de distinguer les segments XForms du code XHTML, on utilise des [espaces de noms](https://fr.wikipedia.org/wiki/Espace_de_noms). Dans l’exemple ci-dessus, l’espace de nom XForms est déclaré par l’intermédiaire de la déclaration d’espace de nom `xmlns:xf` (`<html xmlns:xf="http://www.w3.org/2002/xforms"/>`). L’utilisation du préfixe `xf` permet ensuite d’identifier facilement les éléments XForms dans le reste du document.
 
 ```xml
 <xf:input  ref="PersonGivenName"  incremental="true">
@@ -111,14 +113,14 @@ Reposant sur la syntaxe XML, XForms a été conçu pour s’intégrer directemen
 </xf:input>
 ```
 
-Notons que la déclaration du client XSLTForms se fait très simplement, avec l’ajout d’une instruction de traitement dans le préambule du document pointant vers la feuille de transformation `xsltforms.xsl` :
+La déclaration du client XSLTForms se fait très simplement, par l’intermédiaire d’une instruction de traitement qui est ajoutée dans le préambule du document pointant vers la feuille de transformation `xsltforms.xsl` :
 
 ```xml
 <?xml-stylesheet href="xsltforms.xsl" type="text/xsl"?>
 ```
 
 ### L’architecture modèle-vue-contrôleur de XForms
-Contrairement aux formulaires XHTML, XForms adopte une [architecture Modèle-Vue-Contrôleur](https://fr.wikipedia.org/wiki/Mod%C3%A8le-vue-contr%C3%B4leur) (MVC), facilitant la maintenance des formulaires et favorisant les réutilisations.
+Contrairement aux formulaires XHTML, XForms adopte une [architecture Modèle-Vue-Contrôleur](https://fr.wikipedia.org/wiki/Mod%C3%A8le-vue-contr%C3%B4leur) (MVC) destinée à faciliter la maintenance des formulaires et à favoriser leur réutilisation.
 
 ####  Modèle
 Le **modèle** XForms [`<xf:model/>`](https://www.w3.org/TR/xforms11/#structure-model) contient le modèle de données exprimé sous la forme d’une ou plusieurs instances XML contenues dans un ou plusieurs éléments [`<xf:instance/>`](https://www.w3.org/TR/xforms11/#structure-model-instance).
@@ -148,12 +150,12 @@ La **vue** régit l’affichage et la présentation des données. Elle détermin
 </xf:output>
 ```
 
-Cette couche inclut les différents champs de saisie des données (`<xf:input/>`), les éléments relatifs aux étiquettes ou à l’aide (`<xf:label/>`, `<xf:hint/>`), ou encore des balises pour afficher dynamiquement des données (`<xf:output/>`).
+C’est ici que l’on définit les différents champs de saisie des données (`<xf:input/>`), les éléments relatifs aux étiquettes ou à l’aide (`<xf:label/>`, `<xf:hint/>`), ou encore des balises pour afficher dynamiquement des données (`<xf:output/>`).
 
 #### Contrôleur
 La couche **contrôleur** gère les interactions entre la vue et le modèle. Elle orchestre la mise à jour des données en réponse aux actions des utilisateurs et peut exécuter des actions spécifiques comme la soumissions des données. Nous verrons des exemples dans la suite de cette leçon.
 
-Maintenant que nous avons fait un tour des grands principes qui régissent XForms, réalisons notre formulaire pour la saisie des annuaires historiques.
+Maintenant que nous avons passé en revue les grands principes qui régissent XForms, réalisons notre formulaire pour la saisie des annuaires historiques.
 
 ## *Text Encoding Initiative* et modèle de données
 L’étape préalable à la création d’un formulaire de saisie est l’élaboration d’un modèle de données. Pour cette leçon, nous nous appuierons sur le modèle proposé par la [*Text Encoding Initiative*](https://tei-c.org/), un dialecte XML largement adopté par la communauté des sciences humaines et sociales et spécialisé dans le balisage de ressources textuelles.
@@ -181,17 +183,17 @@ Un document XML-TEI minimal ressemble à ceci :
   </text>
 </TEI>
 ```
-À l’image des fichiers HTML, un document XML-TEI est divisé en deux parties : 
-- l’entête [`<teiHeader/>`](https://tei-c.org/release/doc/tei-p5-doc/fr/html/ref-teiHeader.html), contenant les informations sur la source et les autres métadonnées ; 
+À l’image des fichiers HTML, un document XML-TEI minimal se compose de deux parties : 
+- l’entête [`<teiHeader/>`](https://tei-c.org/release/doc/tei-p5-doc/fr/html/ref-teiHeader.html), contenant les informations sur la source et les autres métadonnées ; 
 - le contenu principal [`<text/>`](https://tei-c.org/release/doc/tei-p5-doc/fr/html/ref-text.html), rassemblant les données textuelles.
 
-Pour cette leçon, nous laisserons de côté le `<teiHeader/>`, afin de nous concentrer sur le corps du document, contenu dans la balise `<body/>`. Toutefois, les mécanismes détaillés plus bas pourront tout-à-fait être réutilisés pour décrire l’entête.
+Pour cette leçon, nous laisserons de côté le `<teiHeader/>`, afin de nous concentrer sur le corps du document, contenu dans la balise `<body/>`. Toutefois, les mécanismes détaillés plus bas pourront tout-à-fait être réutilisés pour renseigner l’entête des documents.
 
 L’analyse des annuaires révèle une structure relativement simple, presque tabulaire, constituée de titres, de paragraphes et de listes, où, pour chaque expert, sont indiqués son année d’entrée dans la corps des experts, son patronyme, éventuellement son statut dans la communauté et enfin son adresse.
 
 {% include figure.html filename="figure1.jpg" caption="Figure 1 : Liste des experts parisiens du bâtiment pour l’année 1750." %}
 
-Avec ces éléments, nous pouvons envisager la modélisation suivante :
+Avec ces éléments, nous pouvons envisager la modélisation suivante :
 
 - le titre de la liste et le paragraphe sont encodés respectivement avec les balises `<tei:head/>` et `<tei:p/>` ;
 - chaque colonne est placée dans un élément `<tei:div type="column"/>`, et son titre dans une balise `<tei:head/>` ;
@@ -199,7 +201,9 @@ Avec ces éléments, nous pouvons envisager la modélisation suivante :
 	- `<tei:date/>` pour la date, 
 	- `<tei:persName/>` pour le patronyme, 
 	- `<tei:roleName/>` pour le statut, 
-	- et `<tei:address/>` pour l’adresse.
+	- et `<tei:address/>` pour l’adresse
+
+<!-- @quest ce n’est pas super sémantique, ne veut-on pas plutôt faire une liste de personnes ? -->
 
 Le tout est placé dans une balise `<div/>` de la manière suivante : 
 
@@ -266,6 +270,8 @@ Cette instance, vide pour le moment, peut être sauvegardée dans un fichier que
 ## Construction du formulaire
 Les formulaires XForms ont été conçus pour s’intégrer au sein de pages XHTML. Commencez par créer une page web minimaliste dans le dossier `xsltforms` que vous nommerez `formulaireAlmanach.xml`
 
+<!-- @quest ne faut-il pas une information sur le fait qu’il doit s’agir d’un document XML ou XHTML ? enjeux pour le service de al page -->
+
 ```xml
 <!-- // xsltforms/formulaireAlmanach.xml -->
 <?xml version="1.0" encoding="UTF-8"?>
@@ -273,7 +279,7 @@ Les formulaires XForms ont été conçus pour s’intégrer au sein de pages XHT
 	<head>
 		<title>Formulaire almanach</title>
 	</head>
-	<body></body>
+	<body><!-- ... --></body>
 </html>
 ```
 
@@ -287,7 +293,7 @@ Afin d’implémenter le client XSLTForms, vous devez ajouter l’instruction de
 	<head>
 		<title>Formulaire almanach</title>
 	</head>
-	<body></body>
+		<body><!-- ... --></body>
 </html>
 ```
 
@@ -308,7 +314,7 @@ Ensuite, il est essentiel de déclarer les espaces de nom pour les différents d
 
 <div  class="alert alert-warning">
 
-Si vous travaillez avec Firefox, sachez que ce navigateur ne prend en charge que très partiellement les espaces de noms. Pour éviter toute erreur, il est nécessaire d’ajouter en plus l’attribut `tei:bogus="https://bugzilla.mozilla.org/show_bug.cgi?id=94270"`.
+Si vous travaillez avec Firefox, sachez que ce navigateur ne prend que partiellement en charge les espaces de noms. Il est possible de contourner cette limitation en ajoutant l’attribut `tei:bogus="https://bugzilla.mozilla.org/show_bug.cgi?id=94270"`.
 
 ```xml
 <!-- // xsltforms/formulaireAlmanach.xml -->
@@ -316,12 +322,12 @@ Si vous travaillez avec Firefox, sachez que ce navigateur ne prend en charge que
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:xf="http://www.w3.org/2002/xforms"
 	xmlns:tei="http://www.tei-c.org/ns/1.0"
+  xmlns:ev="http://www.w3.org/2001/xml-events"
 	tei:bogus="https://bugzilla.mozilla.org/show_bug.cgi?id=94270"
-	xmlns:ev="http://www.w3.org/2001/xml-events"
 	lang="fr"/>
 ```
 
-</div>
+<!-- @quest il y avait la balise fermante </div> dans le document, je ne crois pas qu’elle serve à qqchose -->
 
 ### Déclaration du modèle
 Le modèle doit être placé dans l’entête de la page web avec la balise `<xf:model/>`. Au sein de cette balise, vous ajouterez un sous-élément `<xf:instance/>` pointant vers le fichier `instanceAlmanach.xml` de la manière suivante :
@@ -337,14 +343,14 @@ Le modèle doit être placé dans l’entête de la page web avec la balise `<xf
 ```
 
 ### Le formulaire
-Comme avec XHTML, il existe plusieurs types de champs XForms, dont les principaux sont :
+À l’instar de HTML, XForms propose plusieurs types de champs. Les principaux sont les suivants :
 
-- [`<xf:input/>`](https://www.w3.org/TR/xforms11/#ui-input) : champ texte ;
-- [`<xf:textarea/>`](https://www.w3.org/TR/xforms11/#ui-textarea) : champ bloc de texte ;
-- [`<xf:select/>`](https://www.w3.org/TR/xforms11/#ui-selectMany) : champ sélection multiple (type *checkbox*) ;
+- [`<xf:input/>`](https://www.w3.org/TR/xforms11/#ui-input) : champ texte ;
+- [`<xf:textarea/>`](https://www.w3.org/TR/xforms11/#ui-textarea) : champ bloc de texte ;
+- [`<xf:select/>`](https://www.w3.org/TR/xforms11/#ui-selectMany) : champ sélection multiple (type *checkbox*) ;
 - [`<xf:select1/>`](https://www.w3.org/TR/xforms11/#ui-selectOne) : champ sélection unique (type *radio*).
 
-Chaque champ du formulaire est relié directement à un nœud de l’instance XML par l’intermédiaire d’un chemin XPath, indiqué dans un attribut `@ref`, tandis qu’une étiquette peut être assignée à l’aide de la balise [`<xf:label/>`](https://www.w3.org/TR/xforms11/#ui-commonelems-label).
+Chaque champ du formulaire peut être directement relié à un nœud de l’instance XML par l’intermédiaire d’un chemin XPath qui est indiqué dans un attribut `@ref. Il est par ailleurs possible d’ajouter une étiquette avec la balise [`<xf:label/>`](https://www.w3.org/TR/xforms11/#ui-commonelems-label).
 
 ```xml
 <xf:input ref="mon/chemin/xpath">
@@ -352,7 +358,7 @@ Chaque champ du formulaire est relié directement à un nœud de l’instance XM
 </xf:input>
 ```
 
-Ajoutons les premiers champs à notre formulaire. Si ce n’est déjà fait, ouvrez le fichier `formulaireAlmanach.xml` dans votre éditeur de texte. Pour créer les deux premiers champs, Nous aurons besoin des balises `<xf:input/>` pour le titre et `<xf:textarea/>` pour le premier paragraphe. Ces éléments doivent être placés dans le `<body/>` de votre page web.
+Ajoutons les premiers champs à notre formulaire. Si ce n’est déjà fait, ouvrez le fichier `formulaireAlmanach.xml` dans votre éditeur de texte. Pour créer les deux premiers champs, nous aurons besoin des balises `<xf:input/>` pour le titre et `<xf:textarea/>` pour le premier paragraphe. Ces éléments doivent être placés dans le corps de votre page web, à l’intérieur de l’élément `<body/>`.
 
 ```xml
 <!-- // xsltforms/formulaireAlmanach.xml -->
@@ -412,7 +418,7 @@ En vous rendant à l’adresse [http://localhost:8000/formulaireAlmanach.xml](ht
 
 Concernant la répartition en deux colonnes de notre liste d’experts, plusieurs solutions sont possibles pour établir la partie du formulaire afférante. 
 
-La première solution consiste à tout coder en "dur". Cette méthode a l’avantage d’être simple à mettre en œuvre, dans la mesure où la structure de nos deux colonnes sont identiques. En revanche, cela en fait une solution verbeuse, obligeant à répéter plusieurs fois les mêmes choses. D’autre part elle est peu souple : si nous devions ajouter une troisième colonne par exemple, il faudrait modifier le formulaire manuellement, ainsi que notre modèle. 
+La première solution consiste à tout coder « en dur ». Cette méthode présente l’avantage d’être simple à mettre en œuvre, dans la mesure où la structure de nos deux colonnes sont identiques. En revanche, cette solution est verbeuse car elle oblige à répéter plusieurs fois les mêmes choses. Elle manque également de souplesse : pour ajouter une troisième colonne, il faudrait modifier le formulaire et le modèle manuellement. 
 
 ```xml
 <!-- // xsltforms/formulaireAlmanach.xml -->
@@ -496,6 +502,8 @@ Concernant le statut, nous avons utilisé une liste à choix unique ([`<xf:selec
 - `<xf:value/>` pour la valeur qui sera attribuée au nœud ciblé (`roleName` en l’occurence).
 
 En revanche, comme vous l’aurez remarqué, nous n’avons mis qu’un seul élément `<item/>` par `<list/>` dans le modèle de données. C’est tout simplement parce que, à la différence de la répartition des experts en deux colonnes qui est constante tout au long du 18e siècle, il est impossible de savoir à l’avance combien chaque colonne comptera d’experts bourgeois ou d’experts entrepreneurs. Il est donc nécessaire d’ajouter des contrôles afin d’être en mesure d’insérer (ou de supprimer) des `<item/>` directement depuis l’interface de saisie.
+
+<!-- @quest peut être pas ici, mais il faudrait sans doute quelque part comparer ce que propose HTML et XForms. Au sens où le modèle déclaratif de XForms permet une meilleure gestion des champs de formulaires ainsi qu’une meilleure structuration -->
 
 ### Les contrôles
 Les contrôles vont nous permettre d’intéragir directement avec le modèle au regard d’événements déclenchés par des actions : par exemple, lors d’un clic sur un bouton, lors de la mise à jour de la valeur d’un champ, lors de la soumission du formulaire, etc.
@@ -663,7 +671,7 @@ Le standard XForms propose aussi la validation d’instances au regard de schema
 </xf:model>
 ```
 
-</div>
+</div> <!-- @quest balise div ? -->
 
 #### Champ obligatoire
 Avant de soumettre un formulaire à l’enregistrement, vous pourriez souhaiter que certains champs soient renseignés. C’est précisément l’objet de l’attribut `@required`, qui prend pour valeur les booléens `true()` ou `false()`. Dans le cadre de notre formulaire nous pourrions souhaiter qu’à minima le titre principale soit renseigné.
